@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pomodoro Timer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <div class="app-wrapper">
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-dot"></span>
+        <span class="logo-text">Pomo</span>
+      </div>
+      <nav class="nav-tabs">
+        <button class="nav-btn active" data-tab="timer">
+          <i class="ti ti-player-play"></i> Timer
+        </button>
+        <button class="nav-btn" data-tab="settings">
+          <i class="ti ti-settings"></i> Settings
+        </button>
+        <button class="nav-btn" data-tab="dashboard">
+          <i class="ti ti-chart-bar"></i> Dashboard
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+
+      <!-- ===== TIMER PANEL ===== -->
+      <section class="panel active" id="panel-timer">
+        <div class="mode-pills">
+          <button class="mode-pill active" data-mode="work">Work</button>
+          <button class="mode-pill" data-mode="break">Short Break</button>
+          <button class="mode-pill" data-mode="longbreak">Long Break</button>
+        </div>
+
+        <div class="clock-wrapper">
+          <svg class="progress-ring" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="glow-filter">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <circle class="ring-track" cx="140" cy="140" r="124"/>
+            <circle class="ring-progress" id="ring-progress" cx="140" cy="140" r="124"/>
+          </svg>
+          <div class="clock-face">
+            <div class="clock-time" id="clock-display">25:00</div>
+            <div class="clock-label" id="clock-label">Focus Time</div>
+          </div>
+        </div>
+
+        <div class="session-dots" id="session-dots"></div>
+
+        <div class="controls">
+          <button class="ctrl-btn secondary" id="btn-reset" title="Reset">
+            <i class="ti ti-refresh"></i>
+          </button>
+          <button class="ctrl-btn primary" id="btn-play" title="Start / Pause">
+            <i class="ti ti-player-play" id="play-icon"></i>
+          </button>
+          <button class="ctrl-btn secondary" id="btn-skip" title="Skip">
+            <i class="ti ti-player-skip-forward"></i>
+          </button>
+        </div>
+
+        <div class="sound-bar">
+          <i class="ti ti-volume"></i>
+          <label for="sound-select">Alert sound</label>
+          <select id="sound-select">
+            <option value="bell">Bell</option>
+            <option value="chime">Chime</option>
+            <option value="digital">Digital</option>
+            <option value="soft">Soft ping</option>
+            <option value="none">Silent</option>
+          </select>
+          <button class="test-sound-btn" id="btn-test-sound">
+            <i class="ti ti-ear"></i> Test
+          </button>
+        </div>
+      </section>
+
+      <!-- ===== SETTINGS PANEL ===== -->
+      <section class="panel" id="panel-settings">
+        <h2 class="panel-title">Settings</h2>
+
+        <div class="settings-grid">
+          <div class="setting-card">
+            <div class="setting-icon"><i class="ti ti-brain"></i></div>
+            <label>Work duration</label>
+            <div class="stepper">
+              <button class="step-btn" data-key="work" data-delta="-1">−</button>
+              <div class="step-val">
+                <span id="set-work">25</span>
+                <small>min</small>
+              </div>
+              <button class="step-btn" data-key="work" data-delta="1">+</button>
+            </div>
+          </div>
+
+          <div class="setting-card">
+            <div class="setting-icon"><i class="ti ti-coffee"></i></div>
+            <label>Short break</label>
+            <div class="stepper">
+              <button class="step-btn" data-key="break" data-delta="-1">−</button>
+              <div class="step-val">
+                <span id="set-break">5</span>
+                <small>min</small>
+              </div>
+              <button class="step-btn" data-key="break" data-delta="1">+</button>
+            </div>
+          </div>
+
+          <div class="setting-card">
+            <div class="setting-icon"><i class="ti ti-bed"></i></div>
+            <label>Long break</label>
+            <div class="stepper">
+              <button class="step-btn" data-key="longbreak" data-delta="-1">−</button>
+              <div class="step-val">
+                <span id="set-longbreak">15</span>
+                <small>min</small>
+              </div>
+              <button class="step-btn" data-key="longbreak" data-delta="1">+</button>
+            </div>
+          </div>
+
+          <div class="setting-card">
+            <div class="setting-icon"><i class="ti ti-target"></i></div>
+            <label>Daily goal</label>
+            <div class="stepper">
+              <button class="step-btn" data-key="goal" data-delta="-1">−</button>
+              <div class="step-val">
+                <span id="set-goal">8</span>
+                <small>sessions</small>
+              </div>
+              <button class="step-btn" data-key="goal" data-delta="1">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-extras">
+          <div class="select-row">
+            <label>Sessions before long break</label>
+            <select id="set-cycles">
+              <option value="2">2 sessions</option>
+              <option value="3">3 sessions</option>
+              <option value="4" selected>4 sessions</option>
+              <option value="5">5 sessions</option>
+              <option value="6">6 sessions</option>
+            </select>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="toggle-label">Auto-start breaks</span>
+              <span class="toggle-desc">Automatically begin break after work session</span>
+            </div>
+            <button class="toggle-btn" id="tog-autobreak" data-key="autoBreak" aria-pressed="false"></button>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="toggle-label">Auto-start sessions</span>
+              <span class="toggle-desc">Automatically begin work after each break</span>
+            </div>
+            <button class="toggle-btn" id="tog-autosession" data-key="autoSession" aria-pressed="false"></button>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="toggle-label">Browser notifications</span>
+              <span class="toggle-desc">Show desktop alerts when timer ends</span>
+            </div>
+            <button class="toggle-btn on" id="tog-notif" data-key="notifications" aria-pressed="true"></button>
+          </div>
+        </div>
+
+        <button class="save-btn" id="btn-save">
+          <i class="ti ti-check"></i> Save Settings
+        </button>
+      </section>
+
+      <!-- ===== DASHBOARD PANEL ===== -->
+      <section class="panel" id="panel-dashboard">
+        <h2 class="panel-title">Dashboard</h2>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <i class="ti ti-flame stat-icon"></i>
+            <div class="stat-num" id="stat-today">0</div>
+            <div class="stat-label">Today</div>
+          </div>
+          <div class="stat-card">
+            <i class="ti ti-clock stat-icon"></i>
+            <div class="stat-num" id="stat-focus">0m</div>
+            <div class="stat-label">Focus time</div>
+          </div>
+          <div class="stat-card">
+            <i class="ti ti-calendar stat-icon"></i>
+            <div class="stat-num" id="stat-total">0</div>
+            <div class="stat-label">Total sessions</div>
+          </div>
+          <div class="stat-card">
+            <i class="ti ti-bolt stat-icon"></i>
+            <div class="stat-num" id="stat-streak">0</div>
+            <div class="stat-label">Day streak</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <span class="chart-title">Sessions — last 7 days</span>
+            <span class="chart-legend"><span class="legend-dot"></span> Work sessions</span>
+          </div>
+          <div class="bar-chart" id="bar-chart"></div>
+        </div>
+
+        <div class="history-card">
+          <div class="history-header">
+            <span class="chart-title">Recent activity</span>
+          </div>
+          <div class="history-list" id="history-list">
+            <div class="empty-state">No sessions yet — start your first!</div>
+          </div>
+        </div>
+
+        <button class="clear-btn" id="btn-clear">
+          <i class="ti ti-trash"></i> Clear all data
+        </button>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
