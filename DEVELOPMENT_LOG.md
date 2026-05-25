@@ -16,8 +16,15 @@
 - ✅ Implemented background effects (grid, glows)
 
 ## Week 3: Implementing Timer Functionality with JavaScript
-- Timer core logic and state management
-- Play, pause, reset, and skip functionality
-- Session mode switching (work, break, longbreak)
-- Progress ring SVG animation
-- Timer display with minute:second format
+- ✅ Created timer state management system
+- ✅ Implemented play, pause, reset, and skip controls
+- ✅ Built session mode switching
+- ✅ Added progress ring SVG animation
+- ✅ Implemented timer display with MM:SS format
+
+## Week 4: Adding Custom Sound Options
+- Web Audio API integration
+- Multiple alert sounds (bell, chime, digital, soft)
+- Procedural tone generation
+- Sound test preview feature
+- Silent mode option
